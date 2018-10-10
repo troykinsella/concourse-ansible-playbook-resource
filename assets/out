@@ -40,7 +40,7 @@ EOF
 }
 
 install_requirements() {
-  local requirements_file=$(attr params requirements "requirements.yml")
+  local requirements_file=$(attr source requirements "requirements.yml")
   test -f "$requirements_file" && ansible-galaxy install -r $requirements_file
 }
 
@@ -114,10 +114,16 @@ become_method_option() {
 
 vars_option() {
   local vars=$(attr params vars '""')
-  if [ -z "$vars" ]; then
-     echo "--extra-vars={}"
+  local vars_file=$(attr params vars_file '""')
+
+  test -n "$vars" && test -n "$vars_file" && { echo "vars and vars_file params are mutually exclusive" >&2; exit 1; }
+
+  if [ -n "$vars" ]; then
+    echo "--extra-vars=$vars"
+  elif [ -n "$vars_file" ]; then
+    echo "--extra-vars=$(cat $vars_file)"
   else
-     echo "--extra-vars=$vars"
+    echo "--extra-vars={}"
   fi
 }
 
@@ -147,8 +153,8 @@ run_command() {
 
 # Main
 
-playbook_dir=$(attr params playbook_dir '""')
-cd $source/$playbook_dir
+work_dir=$(attr params work_dir '""')
+cd $source/$work_dir
 
 ansible-playbook --version
 configure_ssh

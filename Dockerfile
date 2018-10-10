@@ -5,7 +5,9 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       jq; \
     apt-get clean all; \
-    rm -rf /var/lib/apt/lists/*;
+    rm -rf /var/lib/apt/lists/*; \
+    pip install \
+      boto;
 
 COPY assets/* /opt/resource/
 
