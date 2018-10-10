@@ -59,6 +59,16 @@ verbose_option() {
   test -n "$verbose" && echo "-$verbose"
 }
 
+check_option() {
+  local check=$(attr params check false)
+  test "$check" = "true" && echo "--check"
+}
+
+diff_option() {
+  local diff=$(attr params diff false)
+  test "$diff" = "true" && echo "--diff"
+}
+
 private_key_option() {
   echo "--private-key $ssh_private_key_file"
 }
@@ -121,6 +131,8 @@ run_command() {
 
   ansible-playbook \
     $(verbose_option) \
+    $(check_option) \
+    $(diff_option) \
     $(private_key_option) \
     $(inventory_option) \
     $(remote_user_option) \
