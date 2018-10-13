@@ -5,6 +5,7 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       python \
       python-pip \
+      ruby \
       wget; \
     apt-get clean all; \
     rm -rf /var/lib/apt/lists/*; \
@@ -20,11 +21,6 @@ COPY assets/ /opt/resource/
 FROM main as testing
 
 RUN set -eux; \
-    apt-get update -y; \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      ruby; \
-    apt-get clean all; \
-    rm -rf /var/lib/apt/lists/*; \
     gem install \
       rspec; \
     wget -q -O - https://raw.githubusercontent.com/troykinsella/mockleton/master/install.sh | bash; \
