@@ -33,8 +33,8 @@ resources:
   source:
     debug: false
     remote_user: ubuntu
-    ssh_private_key: (( ansible_ssh_private_key ))
-    vault_password: (( ansible_vault_password ))
+    ssh_private_key: ((ansible_ssh_private_key))
+    vault_password: ((ansible_vault_password))
     verbose: v
 ```
 
