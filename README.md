@@ -61,6 +61,8 @@ Most parameters map directly to `ansible-playbook` options. See the
   instead, try to predict some of the changes that may occur.
 * `diff`: Optional. Boolean. Default `false`. When changing (small) files and 
   templates, show the differences in those files; works great with `check: true`.
+* `env`: Optional. A list of environment variable exports to apply.
+  Useful for supplying `AWS_ACCESS_KEY_ID`, etc., for example.
 * `inventory`: Required. The path to the inventory file to use, relative
   to `work_dir`.
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,
@@ -69,7 +71,7 @@ Most parameters map directly to `ansible-playbook` options. See the
   Mutually exclusive with `vars_file`.
 * `vars_file`: Optional. A file containing a JSON object of extra variables
   to pass to `ansible-playbook`. Mutually exclusive with `vars`.
-* `work_dir`: Required. The path to the directory containing playbook sources. This typically
+* `path`: Required. The path to the directory containing playbook sources. This typically
   will point to a resource pulled from source control.
 
 #### Example
@@ -87,5 +89,5 @@ jobs:
       diff: true
       inventory: inventory/some-hosts.yml
       playbook: provision-frontend.yml
-      work_dir: master
+      path: master
 ```
