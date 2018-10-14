@@ -11,14 +11,14 @@ class AnsibleGalaxy
     @requirements || "requirements.yml"
   end
 
-  def command
-    "ansible-galaxy -r #{requirements}"
+  def install_command
+    "ansible-galaxy install -r #{requirements}"
   end
 
   def install!
     return 0 unless File.exists? requirements
 
-    cmd = command
+    cmd = install_command
     STDERR.puts cmd if @echo
     system(cmd)
     $?.exitstatus

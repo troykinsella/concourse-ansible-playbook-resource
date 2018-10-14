@@ -89,7 +89,7 @@ describe "commands:out" do
       out = JSON.parse(File.read(mockelton_out))
 
       expect(out["sequence"].size).to be 2
-      expect(out["sequence"][0]["exec-spec"]["args"]).to eq [ "ansible-galaxy", "-r", "requirements.yml" ]
+      expect(out["sequence"][0]["exec-spec"]["args"]).to eq [ "ansible-galaxy", "install", "-r", "requirements.yml" ]
     end
 
     it "installs specified requirements" do
@@ -111,7 +111,7 @@ describe "commands:out" do
       out = JSON.parse(File.read(mockelton_out))
 
       expect(out["sequence"].size).to be 2
-      expect(out["sequence"][0]["exec-spec"]["args"]).to eq [ "ansible-galaxy", "-r", "other_requirements.yml" ]
+      expect(out["sequence"][0]["exec-spec"]["args"]).to eq [ "ansible-galaxy", "install", "-r", "other_requirements.yml" ]
     end
 
     it "fails when requirements not found" do
