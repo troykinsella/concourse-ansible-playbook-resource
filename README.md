@@ -11,6 +11,11 @@ The `git_*` attributes are relevant to referencing git repositories in the `requ
 which are pulled from during `ansible-galaxy install`.
 
 * `debug`: Optional. Boolean. Default `false`. Echo command output.
+* `env`: Optional. A list of environment variables to apply.
+  Useful for supplying task configuration dependencies like `AWS_ACCESS_KEY_ID`, for example, or specifying
+  [ansible configuration](https://docs.ansible.com/ansible/latest/reference_appendices/config.html) options
+  that are unsupported by this resource. Note: Unsupported ansible configurations can also be applied in `ansible.cfg` 
+  in the playbook source.
 * `git_global_config`: Optional. A list of git global configurations to apply (with `git config --global`).
 * `git_https_username`:  Optional. The username for git http/s access.
 * `git_https_password`: Optional. The password for git http/s access.
@@ -69,8 +74,6 @@ Most parameters map directly to `ansible-playbook` options. See the
   instead, try to predict some of the changes that may occur.
 * `diff`: Optional. Boolean. Default `false`. When changing (small) files and 
   templates, show the differences in those files; works great with `check: true`.
-* `env`: Optional. A list of environment variable exports to apply.
-  Useful for supplying `AWS_ACCESS_KEY_ID`, etc., for example.
 * `inventory`: Required. The path to the inventory file to use, relative
   to `work_dir`.
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,

@@ -72,6 +72,51 @@ module Commands
       git_config.configure_git_global! source.git_global_config
     end
 
+    def configure_ansible!
+
+      # Sanitize ansible.cfg
+      ansible_cfg_path = "ansible.cfg"
+      if File.exists? ansible_cfg_path
+        # Never allow a vault password file that may have come from source control :P
+        `sed -i '/vault_password_file[[:space:]]*=/d' #{ansible_cfg_path}`
+
+        # Never allow a private key file that may have come from source control :P
+        `sed -i '/private_key_file[[:space:]]*=/d' #{ansible_cfg_path}`
+
+        # Never prompt for a vault password
+        `sed -i '/ask_vault_pass[[:space:]]*=/d' #{ansible_cfg_path}`
+
+        # Never prompt for a become password
+        `sed -i '/become_ask_pass[[:space:]]*=/d' #{ansible_cfg_path}`
+
+        # Force certain ansible-playbook command line options to take
+        # precedence over ansible.cfg entries
+        if params.become
+          `sed -i '/become[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+        if !params.become_method.nil?
+          `sed -i '/become_method[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+        if !params.become_user.nil?
+          `sed -i '/become_user[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+        if !params.inventory.nil?
+          `sed -i '/inventory[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+        if !source.user.nil?
+          `sed -i '/remote_user[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+        if !source.verbose.nil?
+          `sed -i '/verbosity[[:space:]]*=/d' #{ansible_cfg_path}`
+        end
+
+        if source.debug
+          puts "Sanitized ansible.cfg:"
+          puts File.read(ansible_cfg_path)
+        end
+      end
+    end
+
     def create_vault_password_file!
       vp = source.vault_password
       if !vp.nil?
@@ -103,11 +148,10 @@ module Commands
       ap.become_method = params.become_method
       ap.check = params.check
       ap.diff = params.diff
-      ap.env = ENV.to_hash.merge(params.env || {})
+      ap.env = ENV.to_hash.merge(source.env || {})
       ap.extra_vars = params.vars
       ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
-
       ap.private_key = SSH_KEY_PATH
       ap.user = source.user
       ap.ssh_common_args = source.ssh_common_args
@@ -122,6 +166,7 @@ module Commands
 
       configure_ssh!
       configure_git!
+      configure_ansible!
       install_requirements!
       run_playbook!
     end

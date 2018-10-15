@@ -1,4 +1,4 @@
-FROM ubuntu:xenial as main
+FROM ubuntu:bionic as main
 
 RUN set -eux; \
     apt-get update -y; \

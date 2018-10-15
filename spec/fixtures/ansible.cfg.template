@@ -1,0 +1,12 @@
+[defaults]
+other_stuff = good
+vault_password_file = bad!
+private_key_file = bad!
+ask_vault_pass = bad!
+become_ask_pass = bad!
+become = bad!
+become_user = bad!
+become_method = bad!
+inventory = bad!
+remote_user = bad!
+verbosity = bad!
