@@ -192,11 +192,11 @@ describe "integration:playbook" do
                                                           ]
   end
 
-  it "calls ansible-playbook with source.remote_user" do
+  it "calls ansible-playbook with source.user" do
     stdin = {
         "source" => {
             "ssh_private_key" => "key",
-            "remote_user" => "reggie"
+            "user" => "reggie"
         },
         "params" => {
             "path" => "spec/fixtures",
@@ -219,7 +219,7 @@ describe "integration:playbook" do
                                                               "the_inventory",
                                                               "--private-key",
                                                               ssh_private_key_file,
-                                                              "--remote-user",
+                                                              "--user",
                                                               "reggie",
                                                               "site.yml"
                                                           ]

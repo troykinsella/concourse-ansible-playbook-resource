@@ -109,7 +109,7 @@ module Commands
       ap.playbook = params.playbook
 
       ap.private_key = SSH_KEY_PATH
-      ap.remote_user = source.remote_user
+      ap.user = source.user
       ap.ssh_common_args = source.ssh_common_args
       ap.vault_password_file = create_vault_password_file!
       ap.verbose = source.verbose

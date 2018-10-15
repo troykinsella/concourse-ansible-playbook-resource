@@ -16,7 +16,7 @@ which are pulled from during `ansible-galaxy install`.
 * `git_https_password`: Optional. The password for git http/s access.
 * `git_private_key`: Optional. The git ssh private key.
 * `git_skip_ssl_verification`: Optional. Boolean. Default `false`. Don't verify TLS certificates.
-* `remote_user`: Optional. Connect to the remote system with this user.
+* `user`: Optional. Connect to the remote system with this user.
 * `requirements`: Optional. Default `requirements.yml`. If this file is present in the 
   playbook source directory, it is used with `ansible-galaxy --install` before running the playbook.
 * `ssh_common_args`: Optional. Specify options to pass to `ssh`. 
@@ -40,7 +40,7 @@ resources:
   type: ansible-playbook
   source:
     debug: false
-    remote_user: ubuntu
+    user: ubuntu
     ssh_private_key: ((ansible_ssh_private_key))
     vault_password: ((ansible_vault_password))
     verbose: v

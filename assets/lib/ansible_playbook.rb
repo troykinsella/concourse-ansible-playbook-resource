@@ -13,8 +13,8 @@ class AnsiblePlaybook
   attr_writer :inventory
   attr_writer :playbook
   attr_writer :private_key
-  attr_writer :remote_user
   attr_writer :ssh_common_args
+  attr_writer :user
   attr_writer :vault_password_file
   attr_writer :verbose
 
@@ -63,8 +63,8 @@ class AnsiblePlaybook
     "--private-key #{@private_key}" unless @private_key.nil?
   end
 
-  def remote_user
-    "--remote-user #{@remote_user}" unless @remote_user.nil?
+  def user
+    "--user #{@user}" unless @user.nil?
   end
 
   def ssh_common_args
@@ -90,8 +90,8 @@ class AnsiblePlaybook
       extra_vars,
       inventory,
       private_key,
-      remote_user,
       ssh_common_args,
+      user,
       vault_password_file,
       verbose,
       playbook
