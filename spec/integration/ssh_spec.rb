@@ -27,9 +27,6 @@ describe "integration:ssh" do
 
     stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
 
-    puts stdout
-    puts stderr
-
     expect(status.success?).to be true
     expect(File).to exist(ssh_private_key_file)
 
