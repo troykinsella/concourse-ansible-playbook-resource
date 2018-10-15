@@ -60,7 +60,12 @@ resources:
 ### `out`: Execute `ansible` Playbook
 
 Execute `ansible-playbook` against a given playbook and inventory file,
-firstly installing dependencies with `ansible-galaxy --install` if necessary.
+firstly installing dependencies with `ansible-galaxy install -r requirements.yml` if necessary.
+
+Prior to running `ansible-playbook`, if an `ansible.cfg` file is present in the 
+`path` directory, it is sanitized by removing entries for which the equivalent
+command line options are managed by this resource. The result of this sanitization
+can be seen by setting `source.debug: true`.
 
 #### Parameters
 
@@ -75,9 +80,9 @@ Most parameters map directly to `ansible-playbook` options. See the
 * `diff`: Optional. Boolean. Default `false`. When changing (small) files and 
   templates, show the differences in those files; works great with `check: true`.
 * `inventory`: Required. The path to the inventory file to use, relative
-  to `work_dir`.
+  to `path`.
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,
-  relative to `work_dir`.
+  relative to `path`.
 * `vars`: Optional. An object of extra variables to pass to `ansible-playbook`.
   Mutually exclusive with `vars_file`.
 * `vars_file`: Optional. A file containing a JSON object of extra variables
@@ -108,3 +113,11 @@ jobs:
 ```bash
 docker build .
 ```
+
+## Roadmap
+
+* Support running `ansible-playbook` with `--tags` and `--skip-tags`.
+
+## License
+
+MIT © Troy Kinsella
