@@ -5,6 +5,9 @@ set -e
 exec 3>&1 # make stdout available as fd 3 for the result
 exec 1>&2 # redirect all output to stderr for logging
 
+eval $(ssh-agent) > /dev/null 2>&1
+trap "kill $SSH_AGENT_PID" 0
+
 $(dirname $0)/lib/commands/out.rb $1 <&0
 
 printf '{version:{}}' >&3

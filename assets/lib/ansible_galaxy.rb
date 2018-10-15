@@ -2,6 +2,7 @@
 class AnsibleGalaxy
 
   attr_writer :requirements
+  attr_writer :verbose
 
   def initialize(echo = false)
     @echo = echo
@@ -11,8 +12,12 @@ class AnsibleGalaxy
     @requirements || "requirements.yml"
   end
 
+  def verbose
+    "-#{@verbose}" unless @verbose.nil?
+  end
+
   def install_command
-    "ansible-galaxy install -r #{requirements}"
+    "ansible-galaxy install #{verbose} -r #{requirements}"
   end
 
   def install!

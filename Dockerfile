@@ -3,6 +3,7 @@ FROM ubuntu:xenial as main
 RUN set -eux; \
     apt-get update -y; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      git \
       python \
       python-pip \
       ruby \

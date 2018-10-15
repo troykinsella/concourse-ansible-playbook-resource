@@ -2,7 +2,9 @@
 
 require_relative '../ansible_galaxy'
 require_relative '../ansible_playbook'
+require_relative '../git_config'
 require_relative '../input'
+require_relative '../ssh_config'
 
 require 'fileutils'
 
@@ -16,6 +18,8 @@ module Commands
     def initialize(destination:, input: Input.instance)
       @destination = destination
       @input = input
+
+      @ssh_config = SSHConfig.new source.debug
     end
 
     def source
@@ -47,21 +51,25 @@ module Commands
     end
 
     def configure_ssh!
-      key = require_source('ssh_private_key')
-      key_path = "/tmp/ansible-playbook-resource-private-key"
-      ssh_dir = "~/.ssh"
-      ssh_config_path = File.join(ssh_dir, "config")
+      key_path = "/tmp/ansible-playbook-resource-ssh-private-key"
+      key = require_source 'ssh_private_key'
 
-      File.write key_path, key
-      FileUtils.chmod 0600, key_path
+      @ssh_config.create_key_file! key_path, key
+      @ssh_config.configure!
+    end
 
-      FileUtils.mkdir_p ssh_dir
-      File.write ssh_config_path, <<~EOF
-        StrictHostKeyChecking no
-        LogLevel quiet
-      EOF
+    def configure_git!
+      key = source.git_private_key
+      if !key.nil?
+        key_path = "/tmp/ansible-playbook-resource-git-private-key"
+        @ssh_config.create_key_file! key_path, key
+        @ssh_config.ssh_add_key! key_path
+      end
 
-      FileUtils.chmod 0600, ssh_config_path
+      git_config = GitConfig.new source.debug
+      git_config.skip_ssl_verification! source.git_skip_ssl_verification
+      git_config.configure_https_credentials! source.git_https_username, source.git_https_password
+      git_config.configure_git_global! source.git_global_config
     end
 
     def create_vault_password_file!
@@ -74,7 +82,7 @@ module Commands
     end
 
     def install_requirements!
-      ag = AnsibleGalaxy.new(source.debug)
+      ag = AnsibleGalaxy.new source.debug
 
       req = source.requirements
       if !req.nil?
@@ -82,21 +90,22 @@ module Commands
       end
 
       ag.requirements = req
+      ag.verbose = source.verbose
       code = ag.install!
       exit(code) unless code == 0
     end
 
     def run_playbook!
-      ap = AnsiblePlaybook.new(source.debug)
+      ap = AnsiblePlaybook.new source.debug
 
       ap.become = params.become
       ap.become_user = params.become_user
       ap.become_method = params.become_method
       ap.check = params.check
       ap.diff = params.diff
-      ap.env = params.env
+      ap.env = ENV.to_hash.merge(params.env || {})
       ap.extra_vars = params.vars
-      ap.inventory = require_param('inventory')
+      ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
 
       ap.private_key = source.ssh_private_key
@@ -109,9 +118,10 @@ module Commands
     end
 
     def run!
-      Dir.chdir(path)
+      Dir.chdir path
 
       configure_ssh!
+      configure_git!
       install_requirements!
       run_playbook!
     end
