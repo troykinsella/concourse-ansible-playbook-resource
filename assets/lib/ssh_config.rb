@@ -13,10 +13,10 @@ class SSHConfig
   end
 
   def ssh_add_key!(key_path)
-    cmd = "SSH_ASKPASS=/opt/resource/lib/ssh_askpass.sh DISPLAY= ssh-add #{key_path} > /dev/null"
+    cmd = "SSH_ASKPASS=/opt/resource/lib/ssh_askpass.sh DISPLAY= ssh-add #{key_path}"
     puts cmd if @echo
 
-    stdout, stderr, status = Open3.capture3(cmd)
+    stdout, stderr, status = Open3.capture3(ENV, cmd)
     puts(stdout) if @echo
     STDERR.puts stderr
 

@@ -6,6 +6,7 @@ describe "integration:playbook" do
 
   let(:out_file) { '/opt/resource/out' }
   let(:mockelton_out) { '/resource/spec/fixtures/mockleton.out' }
+  let(:ssh_private_key_file) { '/tmp/ansible-playbook-resource-ssh-private-key' }
 
   after(:each) do
     File.delete mockelton_out if File.exists? mockelton_out
@@ -34,7 +35,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -64,7 +65,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -95,7 +96,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -126,7 +127,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -156,7 +157,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -186,7 +187,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -217,7 +218,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "--remote-user",
                                                               "reggie",
                                                               "site.yml"
@@ -250,7 +251,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "--ssh-common-args",
                                                               "-o foo",
                                                               "site.yml"
@@ -283,7 +284,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "--vault-password-file",
                                                               "/tmp/ansible-playbook-resource-ansible-vault-password",
                                                               "site.yml"
@@ -325,7 +326,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "site.yml"
                                                           ]
   end
@@ -354,7 +355,7 @@ describe "integration:playbook" do
                                                               "-i",
                                                               "the_inventory",
                                                               "--private-key",
-                                                              "key",
+                                                              ssh_private_key_file,
                                                               "-vv",
                                                               "site.yml"
                                                           ]

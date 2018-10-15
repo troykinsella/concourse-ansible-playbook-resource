@@ -33,7 +33,4 @@ class GitConfig
     end
   end
 
-  # TODO: test git ssh key file and ssh-add -l
-  # TODO: test git global config
-
 end

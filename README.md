@@ -7,7 +7,15 @@ A [Concourse CI](https://concourse-ci.org) resource for running Ansible playbook
 Most source attributes map directly to `ansible-playbook` options. See the
 `ansible-playbook --help` for further details.
 
-* `debug`: Optional. Boolean. Default `false`. `set -x` before running `ansible-playbook`.
+The `git_*` attributes are relevant to referencing git repositories in the `requirements.yml` file
+which are pulled from during `ansible-galaxy install`.
+
+* `debug`: Optional. Boolean. Default `false`. Echo command output.
+* `git_global_config`: Optional. A list of git global configurations to apply (with `git config --global`).
+* `git_https_username`:  Optional. The username for git http/s access.
+* `git_https_password`: Optional. The password for git http/s access.
+* `git_private_key`: Optional. The git ssh private key.
+* `git_skip_ssl_verification`: Optional. Boolean. Default `false`. Don't verify TLS certificates.
 * `remote_user`: Optional. Connect to the remote system with this user.
 * `requirements`: Optional. Default `requirements.yml`. If this file is present in the 
   playbook source directory, it is used with `ansible-galaxy --install` before running the playbook.
@@ -90,4 +98,10 @@ jobs:
       inventory: inventory/some-hosts.yml
       playbook: provision-frontend.yml
       path: master
+```
+
+## Testing
+
+```bash
+docker build .
 ```

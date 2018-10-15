@@ -12,6 +12,9 @@ module Commands
 
   class Out
 
+    SSH_KEY_PATH = "/tmp/ansible-playbook-resource-ssh-private-key"
+    GIT_KEY_PATH = "/tmp/ansible-playbook-resource-git-private-key"
+
     attr_reader :destination
     attr_reader :input
 
@@ -51,19 +54,16 @@ module Commands
     end
 
     def configure_ssh!
-      key_path = "/tmp/ansible-playbook-resource-ssh-private-key"
       key = require_source 'ssh_private_key'
-
-      @ssh_config.create_key_file! key_path, key
+      @ssh_config.create_key_file! SSH_KEY_PATH, key
       @ssh_config.configure!
     end
 
     def configure_git!
       key = source.git_private_key
       if !key.nil?
-        key_path = "/tmp/ansible-playbook-resource-git-private-key"
-        @ssh_config.create_key_file! key_path, key
-        @ssh_config.ssh_add_key! key_path
+        @ssh_config.create_key_file! GIT_KEY_PATH, key
+        @ssh_config.ssh_add_key! GIT_KEY_PATH
       end
 
       git_config = GitConfig.new source.debug
@@ -108,7 +108,7 @@ module Commands
       ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
 
-      ap.private_key = source.ssh_private_key
+      ap.private_key = SSH_KEY_PATH
       ap.remote_user = source.remote_user
       ap.ssh_common_args = source.ssh_common_args
       ap.vault_password_file = create_vault_password_file!
