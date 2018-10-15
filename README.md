@@ -10,7 +10,7 @@ Most source attributes map directly to `ansible-playbook` options. See the
 The `git_*` attributes are relevant to referencing git repositories in the `requirements.yml` file
 which are pulled from during `ansible-galaxy install`.
 
-* `debug`: Optional. Boolean. Default `false`. Echo command output.
+* `debug`: Optional. Boolean. Default `false`. Echo commands and other normally-hidden outputs useful for troubleshooting.
 * `env`: Optional. A list of environment variables to apply.
   Useful for supplying task configuration dependencies like `AWS_ACCESS_KEY_ID`, for example, or specifying
   [ansible configuration](https://docs.ansible.com/ansible/latest/reference_appendices/config.html) options
