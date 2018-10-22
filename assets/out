@@ -10,4 +10,4 @@ trap "kill $SSH_AGENT_PID" 0
 
 $(dirname $0)/lib/commands/out.rb $1 <&0
 
-printf '{version:{}}' >&3
+printf '{"version":{}}' >&3

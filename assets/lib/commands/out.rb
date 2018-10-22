@@ -113,6 +113,7 @@ module Commands
         if source.debug
           puts "Sanitized ansible.cfg:"
           puts File.read(ansible_cfg_path)
+          puts
         end
       end
     end
