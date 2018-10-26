@@ -96,7 +96,7 @@ Most parameters map directly to `ansible-playbook` options. See the
 # Extends example in Source Configuration
 
 jobs:
-- name:
+- name: provision-frontend
   plan:
   - get: master # git resource
   - put: ansible
