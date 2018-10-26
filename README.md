@@ -1,4 +1,4 @@
-# concourse-ansible-playbook
+# Concourse Ansible Playbook Resource
 
 A [Concourse CI](https://concourse-ci.org) resource for running Ansible playbooks.
 
