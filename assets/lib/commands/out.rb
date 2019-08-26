@@ -154,7 +154,9 @@ module Commands
       ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
       ap.private_key = SSH_KEY_PATH
+      ap.tags = params.tags
       ap.user = source.user
+      ap.skip_tags = params.skip_tags
       ap.ssh_common_args = source.ssh_common_args
       ap.vault_password_file = create_vault_password_file!
       ap.verbose = source.verbose
