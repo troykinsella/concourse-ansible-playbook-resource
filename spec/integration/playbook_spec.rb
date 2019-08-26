@@ -258,6 +258,76 @@ describe "integration:playbook" do
                                                           ]
   end
 
+  it "calls ansible-playbook with params.tags" do
+    stdin = {
+        "source" => {
+            "ssh_private_key" => "key"
+        },
+        "params" => {
+            "path" => "spec/fixtures",
+            "inventory" => "the_inventory",
+            "diff" => true,
+            "tags" => [ "foo", "bar" ]
+        }
+    }.to_json
+
+    stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
+
+    expect(status.success?).to be true
+
+    out = JSON.parse(File.read(mockelton_out))
+
+    expect(out["sequence"].size).to be 2
+    expect(out["sequence"][1]["exec-spec"]["args"]).to eq [
+                                                              "ansible-playbook",
+                                                              "--diff",
+                                                              "-i",
+                                                              "the_inventory",
+                                                              "--private-key",
+                                                              ssh_private_key_file,
+                                                              "-t",
+                                                              "foo",
+                                                              "-t",
+                                                              "bar",
+                                                              "site.yml"
+                                                          ]
+  end
+
+  it "calls ansible-playbook with params.skip_tags" do
+    stdin = {
+        "source" => {
+            "ssh_private_key" => "key"
+        },
+        "params" => {
+            "path" => "spec/fixtures",
+            "inventory" => "the_inventory",
+            "diff" => true,
+            "skip_tags" => [ "foo", "bar" ]
+        }
+    }.to_json
+
+    stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
+
+    expect(status.success?).to be true
+
+    out = JSON.parse(File.read(mockelton_out))
+
+    expect(out["sequence"].size).to be 2
+    expect(out["sequence"][1]["exec-spec"]["args"]).to eq [
+                                                              "ansible-playbook",
+                                                              "--diff",
+                                                              "-i",
+                                                              "the_inventory",
+                                                              "--private-key",
+                                                              ssh_private_key_file,
+                                                              "--skip-tags",
+                                                              "foo",
+                                                              "--skip-tags",
+                                                              "bar",
+                                                              "site.yml"
+                                                          ]
+  end
+
   it "calls ansible-playbook with source.vault_password" do
     stdin = {
         "source" => {

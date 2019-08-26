@@ -83,6 +83,8 @@ Most parameters map directly to `ansible-playbook` options. See the
   to `path`.
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,
   relative to `path`.
+* `skip_tags`: Optional. Only run plays and tasks not tagged with this list of values.
+* `tags`: Optional. Only run plays and tasks tagged with this list of values.
 * `vars`: Optional. An object of extra variables to pass to `ansible-playbook`.
   Mutually exclusive with `vars_file`.
 * `vars_file`: Optional. A file containing a JSON object of extra variables
@@ -104,7 +106,7 @@ jobs:
       check: true
       diff: true
       inventory: inventory/some-hosts.yml
-      playbook: provision-frontend.yml
+      playbook: site.yml
       path: master
 ```
 
@@ -113,10 +115,6 @@ jobs:
 ```bash
 docker build .
 ```
-
-## Roadmap
-
-* Support running `ansible-playbook` with `--tags` and `--skip-tags`.
 
 ## License
 

@@ -13,7 +13,9 @@ class AnsiblePlaybook
   attr_writer :inventory
   attr_writer :playbook
   attr_writer :private_key
+  attr_writer :skip_tags
   attr_writer :ssh_common_args
+  attr_writer :tags
   attr_writer :user
   attr_writer :vault_password_file
   attr_writer :verbose
@@ -63,8 +65,16 @@ class AnsiblePlaybook
     "--private-key #{@private_key}" unless @private_key.nil?
   end
 
+  def tags
+    (@tags || []).map{|t| "-t #{t}"}
+  end
+
   def user
     "--user #{@user}" unless @user.nil?
+  end
+
+  def skip_tags
+    (@skip_tags || []).map{|t| "--skip-tags #{t}"}
   end
 
   def ssh_common_args
@@ -90,8 +100,10 @@ class AnsiblePlaybook
       extra_vars,
       inventory,
       private_key,
+      skip_tags,
       ssh_common_args,
       user,
+      tags,
       vault_password_file,
       verbose,
       playbook
