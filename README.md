@@ -6,6 +6,9 @@ The resource image contains the latest version of ansible, installed by pip,
 as of when the image was created. It runs ansible with python 3.
 See the `Dockerfile` for other supplied system and pip packages.
 
+See [Docker Hub](https://cloud.docker.com/repository/docker/troykinsella/concourse-ansible-playbook-resource)
+for tagged image versions available.
+
 ## Source Configuration
 
 Most source attributes map directly to `ansible-playbook` options. See the

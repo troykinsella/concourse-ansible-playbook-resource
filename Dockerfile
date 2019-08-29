@@ -8,6 +8,7 @@ RUN set -eux; \
       python3 \
       python3-apt \
       python3-pip \
+      rsync \
       ruby \
       wget; \
     apt-get clean all; \
