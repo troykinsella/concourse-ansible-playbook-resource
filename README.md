@@ -2,6 +2,13 @@
 
 A [Concourse CI](https://concourse-ci.org) resource for running Ansible playbooks.
 
+The resource image contains the latest version of ansible, installed by pip, 
+as of when the image was created. It runs ansible with python 3.
+See the `Dockerfile` for other supplied system and pip packages.
+
+See [Docker Hub](https://cloud.docker.com/repository/docker/troykinsella/concourse-ansible-playbook-resource)
+for tagged image versions available.
+
 ## Source Configuration
 
 Most source attributes map directly to `ansible-playbook` options. See the
@@ -84,6 +91,8 @@ Most parameters map directly to `ansible-playbook` options. See the
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,
   relative to `path`.
 * `skip_tags`: Optional. Only run plays and tasks not tagged with this list of values.
+* `setup_commands`: Optional. A list of shell commands to run before executing the playbook.
+  See the `Custom Setup Commands` section for explanation.
 * `tags`: Optional. Only run plays and tasks tagged with this list of values.
 * `vars`: Optional. An object of extra variables to pass to `ansible-playbook`.
   Mutually exclusive with `vars_file`.
@@ -91,6 +100,18 @@ Most parameters map directly to `ansible-playbook` options. See the
   to pass to `ansible-playbook`. Mutually exclusive with `vars`.
 * `path`: Required. The path to the directory containing playbook sources. This typically
   will point to a resource pulled from source control.
+
+#### Custom Setup Commands
+
+As there are a myriad of Ansible modules, each of which having specific system dependencies,
+it becomes untenable for all of them to be supported by this resource Docker image.
+The `setup_commands` parameter of the `put` operation allows the pipeline manager to 
+install system packages known to be depended upon by the particular playbooks being executed. 
+Of course, this flexibility comes at the cost of having to execute the commands upon 
+every `put`. That said, this Concourse resource does intend to supply a set of dependencies out 
+of the box to support the most common or basic Ansible modules. Please open a ticket 
+requesting the addition of a system package if it can be rationalized that it will benefit 
+a wide variety of use cases.
 
 #### Example
 

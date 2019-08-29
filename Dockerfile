@@ -5,13 +5,15 @@ RUN set -eux; \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
       git \
       openssh-client \
-      python \
-      python-pip \
+      python3 \
+      python3-apt \
+      python3-pip \
+      rsync \
       ruby \
       wget; \
     apt-get clean all; \
     rm -rf /var/lib/apt/lists/*; \
-    pip install \
+    pip3 install --no-cache-dir \
       ansible \
       boto; \
     mkdir -p /etc/ansible; \

@@ -431,4 +431,38 @@ describe "integration:playbook" do
                                                           ]
   end
 
+  it "runs setup_commands" do
+    stdin = {
+        "source" => {
+            "ssh_private_key" => "key"
+        },
+        "params" => {
+            "path" => "spec/fixtures",
+            "inventory" => "the_inventory",
+            "setup_commands" => [
+                "touch /foo_burger",
+            ]
+        }
+    }.to_json
+
+    stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
+
+    expect(status.success?).to be true
+
+    out = JSON.parse(File.read(mockelton_out))
+
+    expect(out["sequence"].size).to be 2
+    expect(out["sequence"][1]["exec-spec"]["args"]).to eq [
+                                                              "ansible-playbook",
+                                                              "-i",
+                                                              "the_inventory",
+                                                              "--private-key",
+                                                              ssh_private_key_file,
+                                                              "site.yml"
+                                                          ]
+
+    system("test -f /foo_burger")
+    expect($?.exitstatus).to be 0
+  end
+
 end

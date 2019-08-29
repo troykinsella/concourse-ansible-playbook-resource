@@ -141,6 +141,12 @@ module Commands
       exit(code) unless code == 0
     end
 
+    def run_setup_commands!
+      (params.setup_commands || []).each do |setup_command|
+        system setup_command
+      end
+    end
+
     def run_playbook!
       ap = AnsiblePlaybook.new source.debug
 
@@ -170,6 +176,7 @@ module Commands
       configure_ssh!
       configure_git!
       configure_ansible!
+      run_setup_commands!
       install_requirements!
       run_playbook!
     end
