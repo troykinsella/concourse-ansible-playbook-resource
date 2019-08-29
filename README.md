@@ -1,4 +1,4 @@
-# concourse-ansible-playbook
+# Concourse Ansible Playbook Resource
 
 A [Concourse CI](https://concourse-ci.org) resource for running Ansible playbooks.
 
@@ -119,7 +119,7 @@ a wide variety of use cases.
 # Extends example in Source Configuration
 
 jobs:
-- name:
+- name: provision-frontend
   plan:
   - get: master # git resource
   - put: ansible
