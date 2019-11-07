@@ -15,6 +15,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/*; \
     pip3 install --no-cache-dir \
       ansible \
+      pywinrm>=0.3.0 \
       boto; \
     mkdir -p /etc/ansible; \
     echo -e "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
