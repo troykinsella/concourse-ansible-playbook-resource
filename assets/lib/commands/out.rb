@@ -157,6 +157,7 @@ module Commands
       ap.diff = params.diff
       ap.env = ENV.to_hash.merge(source.env || {})
       ap.extra_vars = params.vars
+      ap.limit = params.limit
       ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
       ap.private_key = SSH_KEY_PATH

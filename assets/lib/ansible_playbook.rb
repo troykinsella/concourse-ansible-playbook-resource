@@ -11,6 +11,7 @@ class AnsiblePlaybook
   attr_writer :env
   attr_writer :extra_vars
   attr_writer :inventory
+  attr_writer :limit
   attr_writer :playbook
   attr_writer :private_key
   attr_writer :skip_tags
@@ -50,6 +51,10 @@ class AnsiblePlaybook
 
   def extra_vars
     "--extra-vars '#{@extra_vars.to_json}'" unless @extra_vars.nil?
+  end
+
+  def limit
+    "--limit '#{@limit}'" unless @limit.nil?
   end
 
   def inventory
@@ -99,6 +104,7 @@ class AnsiblePlaybook
       diff,
       extra_vars,
       inventory,
+      limit,
       private_key,
       skip_tags,
       ssh_common_args,
