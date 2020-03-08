@@ -1,33 +1,24 @@
-FROM ubuntu:bionic as main
+FROM alpine:latest as main
 
-RUN set -eux; \
-    apt-get update -y; \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y \
-      git \
-      openssh-client \
-      python3 \
-      python3-apt \
-      python3-pip \
-      rsync \
-      ruby \
-      wget; \
-    apt-get clean all; \
-    rm -rf /var/lib/apt/lists/*; \
-    pip3 install --no-cache-dir \
-      ansible \
-      pywinrm>=0.3.0 \
-      boto; \
+RUN echo "===> Adding Python runtime..."  && \
+    apk --update add bash openssh-client ruby git ruby-json python3 py3-pip openssl ca-certificates    && \
+    apk --update add --virtual build-dependencies \
+                python3-dev libffi-dev openssl-dev build-base  && \
+    pip3 install --upgrade pip cffi                            && \
+    echo "===> Installing Ansible..."  && \
+    pip3 install ansible boto pywinrm  && \
+    echo "===> Removing package list..."  && \
+    apk del build-dependencies            && \
+    rm -rf /var/cache/apk/*               && \
+    echo "===> Adding hosts for convenience..."  && \
     mkdir -p /etc/ansible; \
     echo -e "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
 COPY assets/ /opt/resource/
 
-
 FROM main as testing
 
-RUN set -eux; \
-    gem install \
-      rspec; \
+RUN  gem install rspec && \
     wget -q -O - https://raw.githubusercontent.com/troykinsella/mockleton/master/install.sh | bash; \
     cp /usr/local/bin/mockleton /usr/local/bin/ansible-galaxy; \
     cp /usr/local/bin/mockleton /usr/local/bin/ansible-playbook; \
@@ -35,9 +26,5 @@ RUN set -eux; \
 
 COPY . /resource/
 
-RUN set -eux; \
-    cd /resource; \
-    rspec
-
-
-FROM main
+WORKDIR /resource
+RUN rspec
