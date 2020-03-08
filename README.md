@@ -88,6 +88,7 @@ Most parameters map directly to `ansible-playbook` options. See the
   templates, show the differences in those files; works great with `check: true`.
 * `inventory`: Required. The path to the inventory file to use, relative
   to `path`.
+* `limit`: Optional. Limit the playbook run to provided hosts/groups.
 * `playbook`: Optional. Default `site.yml`. The path to the playbook file to run,
   relative to `path`.
 * `skip_tags`: Optional. Only run plays and tasks not tagged with this list of values.
