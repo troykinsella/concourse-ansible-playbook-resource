@@ -11,7 +11,6 @@ RUN set -eux; \
       openssl-dev; \
     pip3 install --upgrade pip cffi; \
     pip3 install ansible boto pywinrm; \
-    pip3 install docker; \
     apk del build-dependencies; \
     rm -rf /var/cache/apk/*; \
     mkdir -p /etc/ansible; \
