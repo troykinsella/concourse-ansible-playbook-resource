@@ -2,7 +2,7 @@ FROM alpine:latest as main
 
 RUN set -eux; \
     apk --update add bash openssh-client ruby git ruby-json python3 py3-pip openssl ca-certificates; \
-    apk --update add gcc musl-dev python3-dev libffi-dev openssl-dev cargo; \
+    apk --update add --virtual gcc musl-dev cargo; \
     apk --update add --virtual \
       build-dependencies \
       build-base \
