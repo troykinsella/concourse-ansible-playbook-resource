@@ -2,13 +2,14 @@ FROM alpine:latest as main
 
 RUN set -eux; \
     apk --update add bash openssh-client ruby git ruby-json python3 py3-pip openssl ca-certificates; \
-    apk --update add --virtual gcc musl-dev cargo; \
     apk --update add --virtual \
       build-dependencies \
       build-base \
       python3-dev \
       libffi-dev \
-      openssl-dev; \
+      openssl-dev \
+      musl-dev \
+      cargo; \
     pip3 install --upgrade pip cffi; \
     pip3 install ansible boto pywinrm; \
     apk del build-dependencies; \
