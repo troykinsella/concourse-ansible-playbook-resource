@@ -55,8 +55,10 @@ module Commands
 
     def configure_ssh!
       debug "Configuring ssh..."
-      key = require_source 'ssh_private_key'
-      @ssh_config.create_key_file! SSH_KEY_PATH, key
+      key = source.ssh_private_key
+      if !key.nil?
+        @ssh_config.create_key_file! SSH_KEY_PATH, key
+      end
       @ssh_config.configure!
     end
 
@@ -170,7 +172,7 @@ module Commands
       ap.limit = params.limit
       ap.inventory = require_param 'inventory'
       ap.playbook = params.playbook
-      ap.private_key = SSH_KEY_PATH
+      ap.private_key = source.ssh_private_key ? SSH_KEY_PATH : nil
       ap.tags = params.tags
       ap.user = source.user
       ap.skip_tags = params.skip_tags

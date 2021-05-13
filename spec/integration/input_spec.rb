@@ -33,7 +33,7 @@ describe "integration:input" do
 
   end
 
-  it "requires source.ssh_private_key" do
+  it "does not require source.ssh_private_key" do
     stdin = {
         "params" => {
             "path" => "spec/fixtures"
@@ -42,8 +42,7 @@ describe "integration:input" do
 
     stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
 
-    expect(status.success?).to be false
-    expect(stderr).to eq %("source.ssh_private_key" must be defined\n)
+    expect(status.success?).to be true
 
   end
 
