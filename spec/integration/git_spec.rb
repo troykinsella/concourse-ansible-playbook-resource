@@ -18,7 +18,7 @@ describe "integration:git" do
     stdin = {
         "source" => {
             "ssh_private_key" => "ssh_key",
-            "git_private_key" => "git_key"
+            "git_private_key" => "git_key\n"
         },
         "params" => {
             "path" => "spec/fixtures",
@@ -32,7 +32,7 @@ describe "integration:git" do
     expect(File).to exist(git_private_key_file)
 
     git_private_key_contents = File.read git_private_key_file
-    expect(git_private_key_contents).to eq("git_key")
+    expect(git_private_key_contents).to eq("git_key\n")
   end
 
   it "configures ssl verification" do
