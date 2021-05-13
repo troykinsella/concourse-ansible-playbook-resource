@@ -36,7 +36,8 @@ describe "integration:input" do
   it "does not require source.ssh_private_key" do
     stdin = {
         "params" => {
-            "path" => "spec/fixtures"
+            "path" => "spec/fixtures",
+            "inventory" => "inventory.yml"
         }
     }.to_json
 
