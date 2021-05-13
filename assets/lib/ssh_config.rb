@@ -8,6 +8,9 @@ class SSHConfig
   end
 
   def create_key_file!(key_path, key)
+    unless key.end_with?("\n")
+      key << "\n"
+    end
     File.write key_path, key
     FileUtils.chmod 0600, key_path
   end
