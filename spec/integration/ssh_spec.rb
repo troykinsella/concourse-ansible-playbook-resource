@@ -16,6 +16,27 @@ describe "integration:ssh" do
   it "creates private key file" do
     stdin = {
         "source" => {
+            "ssh_private_key" => "key\n",
+            "debug" => true
+        },
+        "params" => {
+            "path" => "spec/fixtures",
+            "inventory" => "the_inventory"
+        }
+    }.to_json
+
+    stdout, stderr, status = Open3.capture3("#{out_file} .", :stdin_data => stdin)
+
+    expect(status.success?).to be true
+    expect(File).to exist(ssh_private_key_file)
+
+    ssh_private_key_contents = File.read ssh_private_key_file
+    expect(ssh_private_key_contents).to eq("key\n")
+  end
+
+  it "adds trailing newline to private key file" do
+    stdin = {
+        "source" => {
             "ssh_private_key" => "key",
             "debug" => true
         },
@@ -31,13 +52,13 @@ describe "integration:ssh" do
     expect(File).to exist(ssh_private_key_file)
 
     ssh_private_key_contents = File.read ssh_private_key_file
-    expect(ssh_private_key_contents).to eq("key")
+    expect(ssh_private_key_contents).to eq("key\n")
   end
 
   it "should create ssh config" do
     stdin = {
         "source" => {
-            "ssh_private_key" => "key"
+            "ssh_private_key" => "key\n"
         },
         "params" => {
             "path" => "spec/fixtures",
