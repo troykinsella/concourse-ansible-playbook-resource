@@ -7,7 +7,9 @@ RUN set -eux; \
       build-base \
       python3-dev \
       libffi-dev \
-      openssl-dev; \
+      openssl-dev \
+      musl-dev \
+      cargo; \
     pip3 install --upgrade pip cffi; \
     pip3 install ansible boto pywinrm; \
     apk del build-dependencies; \

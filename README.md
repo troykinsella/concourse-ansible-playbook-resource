@@ -32,7 +32,7 @@ which are pulled from during `ansible-galaxy install`.
 * `requirements`: Optional. Default `requirements.yml`. If this file is present in the 
   playbook source directory, it is used with `ansible-galaxy --install` before running the playbook.
 * `ssh_common_args`: Optional. Specify options to pass to `ssh`. 
-* `ssh_private_key`: Required. The `ssh` private key with which to connect to the remote system.
+* `ssh_private_key`: Optional. The `ssh` private key with which to connect to the remote system.
 * `vault_password`: Optional. The value of the `ansible-vault` password.
 * `verbose`: Optional. Specify, `v`, `vv`, etc., to increase the verbosity of the
   `ansible-playbook` execution.
