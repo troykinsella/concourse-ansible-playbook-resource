@@ -14,6 +14,12 @@ RUN set -eux; \
     pip3 install ansible boto pywinrm; \
     apk del build-dependencies; \
     rm -rf /var/cache/apk/*; \
+# Remove PIP and Cargo cache
+	rm -rf /root/.cargo /root/.cache; \
+# Remove Python cache files
+	find /usr/lib/ -name '__pycache__' -print0 | xargs -0 -n1 rm -rf; \
+	find /usr/lib/ -name '*.pyc' -print0 | xargs -0 -n1 rm -rf; \
+# Add hosts for convenience
     mkdir -p /etc/ansible; \
     echo -e "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 
