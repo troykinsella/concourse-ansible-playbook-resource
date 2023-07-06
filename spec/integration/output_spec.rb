@@ -8,7 +8,7 @@ describe "integration:output" do
   let(:mockelton_out) { '/resource/spec/fixtures/mockleton.out' }
 
   after(:each) do
-    File.delete mockelton_out if File.exists? mockelton_out
+    File.delete mockelton_out if File.exist? mockelton_out
   end
 
   it "should return an empty version" do

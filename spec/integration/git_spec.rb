@@ -11,7 +11,7 @@ describe "integration:git" do
   let(:gitconfig_file) { '/root/.gitconfig' }
 
   after(:each) do
-    File.delete mockelton_out if File.exists? mockelton_out
+    File.delete mockelton_out if File.exist? mockelton_out
   end
 
   it "creates private key file" do

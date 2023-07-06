@@ -21,7 +21,7 @@ class AnsibleGalaxy
   end
 
   def install!
-    return 0 unless File.exists? requirements
+    return 0 unless File.exist? requirements
 
     cmd = install_command
     STDERR.puts cmd if @echo

@@ -9,7 +9,7 @@ describe "integration:playbook" do
   let(:ssh_private_key_file) { '/tmp/ansible-playbook-resource-ssh-private-key' }
 
   after(:each) do
-    File.delete mockelton_out if File.exists? mockelton_out
+    File.delete mockelton_out if File.exist? mockelton_out
   end
 
   it "calls ansible-playbook with minimal arguments" do

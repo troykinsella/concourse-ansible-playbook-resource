@@ -79,7 +79,7 @@ module Commands
     def configure_ansible!
       # Sanitize ansible.cfg
       ansible_cfg_path = "ansible.cfg"
-      if File.exists? ansible_cfg_path
+      if File.exist? ansible_cfg_path
         debug "Sanitizing ansible.cfg..."
 
         # Never allow a vault password file that may have come from source control :P
@@ -140,7 +140,7 @@ module Commands
 
       req = source.requirements
       if !req.nil?
-        raise InputError, %(source.requirements: "#{source.requirements}" does not exist) unless File.exists? source.requirements
+        raise InputError, %(source.requirements: "#{source.requirements}" does not exist) unless File.exist? source.requirements
       end
 
       ag.requirements = req

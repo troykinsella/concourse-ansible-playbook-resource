@@ -8,7 +8,7 @@ describe "integration:input" do
   let(:mockelton_out) { '/resource/spec/fixtures/mockleton.out' }
 
   after(:each) do
-    File.delete mockelton_out if File.exists? mockelton_out
+    File.delete mockelton_out if File.exist? mockelton_out
   end
 
   it "requires params.path" do
