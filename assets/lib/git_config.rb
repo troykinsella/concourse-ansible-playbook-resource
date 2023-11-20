@@ -14,7 +14,7 @@ class GitConfig
   def configure_https_credentials!(username, password)
     if !username.nil? and !password.nil?
       netrc_path = File.expand_path "~/.netrc"
-      File.write netrc_path, "default login #{username} #{password}\n"
+      File.write netrc_path, "default login #{username} password #{password}\n"
       return true
     end
     false

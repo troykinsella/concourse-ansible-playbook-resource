@@ -76,7 +76,7 @@ describe "integration:git" do
     expect(File).to exist(netrc_file)
 
     netrc_contents = File.read netrc_file
-    expect(netrc_contents).to include("default login foo bar\n")
+    expect(netrc_contents).to include("default login foo password bar\n")
   end
 
   it "configures git globally" do
